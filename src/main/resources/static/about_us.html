@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nosotros | Terribilis Store</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES Y RESET --- */
+        :root { 
+            --accent-color: #ffc107; 
+            --dark-bg: #1a1a1a; 
+            --light-bg: #f4f4f4;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--light-bg); 
+            color: #333; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+        /* --- NAVBAR --- */
+        .navbar { background: var(--dark-bg); border-bottom: 3px solid var(--accent-color); padding: 1rem 0; }
+        .brand-logo-img { height: 80px; width: auto; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5)); transition: transform 0.3s ease; }
+        .brand-logo-img:hover { transform: scale(1.05); }
+        .navbar-brand-text { font-weight: 700; color: white; font-size: 2rem; letter-spacing: -1px; }
+        .navbar-brand-text .highlight { color: var(--accent-color); }
+        .nav-link { color: rgba(255,255,255,0.8) !important; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; }
+        .nav-link:hover, .nav-link.active { color: var(--accent-color) !important; }
+
+        /* --- SECCIÓN HERO --- */
+        .hero-about {
+            position: relative;
+            padding: 160px 0 200px 0;
+            background: url('https://terribilis.net/wp-content/uploads/2021/03/terribilis-interior.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 100%);
+            z-index: 1;
+        }
+        .hero-curve { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; z-index: 2; }
+        .hero-curve svg { display: block; width: 100%; height: 80px; }
+
+        /* --- CARTAS Y COMPONENTES REUTILIZABLES --- */
+        .about-card { border: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s; }
+        .about-card:hover { transform: translateY(-5px); }
+        .icon-box { width: 60px; height: 60px; background: var(--accent-color); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--dark-bg); }
+        .rounded-5 { border-radius: 2rem !important; }
+        .italic { font-style: italic; }
+        .x-small { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+
+        /* --- SECCIÓN LOGROS (Especies) --- */
+        .trophy-watermark {
+            position: absolute; right: -20px; bottom: -30px; font-size: 18rem;
+            color: rgba(0, 0, 0, 0.25); transform: rotate(-15deg); pointer-events: none; z-index: 1;
+        }
+        .achievement-img-wrapper img {
+            width: 80px; height: 80px; object-fit: cover; transition: all 0.3s ease;
+            filter: grayscale(30%); border: 2px solid var(--accent-color);
+        }
+        .achievement-img-wrapper img:hover { transform: scale(1.15) rotate(5deg); filter: grayscale(0%); box-shadow: 0 0 15px var(--accent-color); }
+
+        /* --- SECCIÓN TRAYECTORIA --- */
+        .trayectoria-wrapper { min-height: 500px; border: 1px solid #eee; }
+        .trayectoria-img-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; transition: transform 0.6s ease;
+        }
+        .trayectoria-wrapper:hover .trayectoria-img-bg { transform: scale(1.05); }
+        .trayect-text-block p { border-left: 3px solid #eee; padding-left: 15px; margin-bottom: 1rem; }
+        .trayect-text-block p:first-child { border-left-color: var(--accent-color); }
+        .badge-trayectoria { background: rgba(255, 193, 7, 0.9); padding: 10px 20px; border-radius: 12px; backdrop-filter: blur(5px); z-index: 3; }
+
+        /* --- SECCIÓN TIENDA (CTA) --- */
+        .shop-card-wrapper {
+            background: url('https://terribilis.net/wp-content/uploads/2021/03/terribilis-interior.jpg');
+            background-size: cover; background-position: center; min-height: 450px; display: flex; align-items: center;
+        }
+        .shop-bg-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, rgba(255,193,7,0.1) 100%);
+            z-index: 1;
+        }
+        .btn-main-shop {
+            display: inline-block; padding: 20px 45px; background-color: var(--accent-color);
+            color: var(--dark-bg); text-decoration: none; font-weight: 800; border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 4px solid rgba(0,0,0,0.1);
+        }
+        .btn-main-shop:hover { transform: scale(1.1) translateY(-5px); background-color: white; color: #000; box-shadow: 0 15px 30px rgba(255,193,7,0.4) !important; }
+
+        /* --- MANIFIESTO Y ÉTICA --- */
+        .watermark-icon { top: -10px; left: -10px; font-size: 12rem; color: rgba(255, 255, 255, 0.05); z-index: 1; pointer-events: none; transform: rotate(-10deg); }
+        .bi-check-circle-fill { animation: pulse-yellow 2s infinite; }
+        @keyframes pulse-yellow { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+		/* --- FOOTER --- */
+        footer { background: var(--dark-bg); color: #aaa; }
+        .footer-top { background-color: #111 !important; border-top: 4px solid var(--accent-color); }
+        .address-link, .hover-accent { color: #aaa; text-decoration: none; transition: 0.3s; }
+        .address-link:hover, .hover-accent:hover { color: var(--accent-color); }
+        .bg-black { background: #000 !important; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 991px) {
+            .hero-about { padding: 100px 0; text-align: center; }
+            .trayectoria-img-col { height: 300px; }
+            .trayectoria-img-bg { position: relative; height: 300px; }
+            .trophy-watermark { font-size: 10rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="/img/species/prueba.png" alt="Logo" class="brand-logo-img me-2">
+                <span class="navbar-brand-text">TERRIBILIS <span class="highlight">.NET</span></span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link px-3 fw-bold" href="index.html"><i class="bi bi-grid-fill me-1"></i> Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link active px-3 fw-bold" href="about_us.html"><i class="bi bi-people-fill me-1"></i> Sobre Nosotros</a></li>
+                    <li class="nav-item ms-lg-3"><a class="btn btn-outline-warning fw-bold px-4" href="https://terribilis.net/tienda-2/" target="_blank">Tienda Online</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-about">
+        <div class="hero-overlay"></div>
+        <div class="container position-relative" style="z-index: 3;">
+            <div class="row">
+                <div class="col-lg-8">
+                    <span class="badge bg-warning text-dark mb-3 fw-bold px-3 py-2 text-uppercase">Desde 2004</span>
+                    <h1 class="display-2 fw-bold text-white mb-4">Nuestra <span class="text-warning">Pasión</span> por la Herpetología</h1>
+                    <p class="fs-4 text-white-50 mb-0" style="max-width: 600px;">Dedicados en cuerpo y alma al fascinante mundo de la herpetología técnica y el bienestar animal.</p>
+                </div>
+            </div>
+        </div>
+        <div class="hero-curve">
+            <svg viewBox="0 0 1440 120" fill="#f4f4f4" xmlns="http://www.w3.org/2000/svg"><path d="M0 120L1440 120L1440 0C1440 0 1140 120 720 120C300 120 0 0 0 0L0 120Z"></path></svg>
+        </div>
+    </section>
+
+    <section class="container my-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card about-card h-100 p-4 text-center border-0">
+                    <div class="icon-box mx-auto mb-3"><i class="bi bi-award-fill"></i></div>
+                    <h5 class="fw-bold">Experiencia</h5>
+                    <p class="text-muted small">Llevamos más de dos décadas contribuyendo al desarrollo de la terrariofilia española.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card about-card h-100 p-4 text-center border-0">
+                    <div class="icon-box mx-auto mb-3"><i class="bi bi-heart-pulse-fill"></i></div>
+                    <h5 class="fw-bold">Compromiso</h5>
+                    <p class="text-muted small">Comprometidos con la tenencia y la cría responsable de reptiles y anfibios.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card about-card h-100 p-4 text-center border-0">
+                    <div class="icon-box mx-auto mb-3"><i class="bi bi-people-fill"></i></div>
+                    <h5 class="fw-bold">Comunidad</h5>
+                    <p class="text-muted small">Apostamos por la unidad de nuestro colectivo y la transmisión de conocimiento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card bg-dark text-white p-4 p-md-5 rounded-5 border-0 shadow-lg overflow-hidden position-relative">
+                    <i class="bi bi-trophy-fill trophy-watermark"></i>
+                    <div class="position-relative" style="z-index: 2;">
+                        <h2 class="display-5 fw-bold mb-4 text-warning">Nuestros Logros</h2>
+                        <p class="fs-5 lh-lg opacity-75">Conseguimos la reproducción de distintas especies de dendrobátidos cuando apenas existía interés por ellas en nuestro país.</p>
+                        
+                        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mt-4">
+                            <div class="col text-center">
+                                <div class="achievement-img-wrapper mb-2"><img src="https://terribilis.net/wp-content/uploads/2024/02/image74alva-600x722.png" class="img-fluid rounded-circle" alt="Incilius"></div>
+                                <small class="d-block text-warning italic x-small">Incilius alvarius</small>
+                            </div>
+                            <div class="col text-center">
+                                <div class="achievement-img-wrapper mb-2"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Melanophryniscus_stelzneri.jpg" class="img-fluid rounded-circle" alt="Melanophryniscus"></div>
+                                <small class="d-block text-warning italic x-small">M. stelzneri</small>
+                            </div>
+                            <div class="col text-center">
+                                <div class="achievement-img-wrapper mb-2"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/M._viridis.jpg" class="img-fluid rounded-circle" alt="Morelia"></div>
+                                <small class="d-block text-warning italic x-small">Morelia viridis</small>
+                            </div>
+                            <div class="col text-center">
+                                <div class="achievement-img-wrapper mb-2"><img src="https://terribilis.net/wp-content/uploads/2024/02/image29-600x722.png" class="img-fluid rounded-circle" alt="Varanus"></div>
+                                <small class="d-block text-warning italic x-small">Varanus prasinus</small>
+                            </div>
+                            <div class="col text-center">
+                                <div class="achievement-img-wrapper mb-2"><img src="https://terribilis.net/wp-content/uploads/2024/02/image46brachi-600x722.png" class="img-fluid rounded-circle" alt="Brachylophus"></div>
+                                <small class="d-block text-warning italic x-small">B. fasciatus</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container my-5 py-5">
+        <div class="row g-0 align-items-stretch shadow-lg rounded-5 overflow-hidden bg-white trayectoria-wrapper position-relative">
+            <div class="col-lg-5 position-relative trayectoria-img-col">
+                <div class="trayectoria-img-bg" style="background-image: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=800');"></div>
+                <div class="position-absolute bottom-0 start-0 m-4 badge-trayectoria">
+                    <span class="d-block fs-3 fw-bold text-dark">+25 Años</span>
+                    <span class="x-small text-dark opacity-75">Experiencia Real</span>
+                </div>
+            </div>
+            <div class="col-lg-7 p-4 p-md-5 d-flex flex-column justify-content-center">
+                <h6 class="text-warning fw-bold text-uppercase mb-2 x-small">Nuestra Trayectoria</h6>
+                <h2 class="fw-bold mb-4">Iniciamos en el año 2000</h2>
+                <div class="mb-4 text-muted trayect-text-block">
+                    <p>Terribilis.net inició como punto de venta virtual para luego convertirse en tienda física, buscando introducir la tenencia de dendrobátidos en España.</p>
+                    <p>A lo largo de los años hemos evolucionado instalaciones y establecido lazos internacionales para ofrecer el mejor catálogo de especies y productos.</p>
+                </div>
+                <div class="bg-light p-3 rounded-4 mb-4">
+                    <h6 class="fw-bold mb-1"><i class="bi bi-compass text-warning me-2"></i> Expediciones a la Selva</h6>
+                    <p class="small mb-0 opacity-75">Viajes a Perú, Brasil, Panamá o Madagascar nos han aportado vivencias que compartimos en revistas especializadas.</p>
+                </div>
+                <p class="small text-muted italic mb-0"><i class="bi bi-patch-check-fill text-success me-1"></i> Núcleo zoológico registrado | Colaboradores de SOS Anfibios.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="shop-cta-section my-5">
+        <div class="container">
+            <div class="shop-card-wrapper position-relative overflow-hidden rounded-5 shadow-lg">
+                <div class="shop-bg-overlay"></div>
+                <div class="row align-items-center position-relative p-4 p-md-5" style="z-index: 3;">
+                    <div class="col-lg-7 text-white">
+                        <h6 class="text-warning text-uppercase fw-bold mb-3" style="letter-spacing: 2px;">Equipamiento Profesional</h6>
+                        <h2 class="display-4 fw-bold mb-4">Todo lo que tu mascota necesita.</h2>
+                        <p class="fs-5 opacity-75 mb-4">Desde terrarios a medida hasta el alimento vivo más selecto, garantizamos el éxito en tu hobby.</p>
+                        <div class="d-flex flex-wrap gap-3 mb-5">
+                            <span><i class="bi bi-check-circle-fill text-warning me-2"></i>Asesoramiento</span>
+                            <span><i class="bi bi-check-circle-fill text-warning me-2"></i>Stock real</span>
+                            <span><i class="bi bi-check-circle-fill text-warning me-2"></i>Envío urgente</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 text-center text-lg-end">
+                        <a href="https://terribilis.net/tienda-2/" target="_blank" class="btn-main-shop shadow-lg">IR A LA TIENDA ONLINE <i class="bi bi-arrow-right-short fs-3"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container my-5 pb-5">
+        <div class="row justify-content-center text-center mb-5">
+            <div class="col-lg-10">
+                <h6 class="text-warning fw-bold text-uppercase x-small">Ética y Filosofía</h6>
+                <h2 class="display-5 fw-bold">Conocimiento y Responsabilidad</h2>
+                <div class="mx-auto bg-warning mt-3" style="height: 4px; width: 60px;"></div>
+            </div>
+        </div>
+        <div class="row justify-content-center g-4">
+            <div class="col-lg-10">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="p-4 h-100 border-start border-warning border-3 bg-white shadow-sm rounded-end-4">
+                            <h5 class="fw-bold"><i class="bi bi-book text-warning me-2"></i> Formación</h5>
+                            <p class="text-muted small">Reciclarse es un deber terrariófilo para satisfacer las necesidades animales y evitar errores fatales.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-4 h-100 border-start border-warning border-3 bg-white shadow-sm rounded-end-4">
+                            <h5 class="fw-bold"><i class="bi bi-heart-fill text-warning me-2"></i> Cría Etica</h5>
+                            <p class="text-muted small">Priorizamos animales nacidos en cautividad para evitar extracciones innecesarias de la naturaleza.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5 p-4 p-md-5 bg-dark text-white rounded-5 shadow-lg position-relative overflow-hidden">
+                    <i class="bi bi-quote position-absolute watermark-icon"></i>
+                    <div class="position-relative text-center" style="z-index: 2;">
+                        <p class="fs-5 italic mb-4">"Un verdadero aficionado jamás debería confundir valor con precio."</p>
+                        <div class="row g-3">
+                            <div class="col-4"><span class="text-warning fw-bold fs-4 d-block">Rigor</span><small class="x-small opacity-50">Técnica</small></div>
+                            <div class="col-4 border-start border-secondary"><span class="text-warning fw-bold fs-4 d-block">Respeto</span><small class="x-small opacity-50">Vida</small></div>
+                            <div class="col-4 border-start border-secondary"><span class="text-warning fw-bold fs-4 d-block">Pasión</span><small class="x-small opacity-50">Afición</small></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+	<footer class="footer mt-5">
+	    <div class="footer-top py-5 bg-dark text-white border-top border-warning border-3">
+	        <div class="container">
+	            <div class="row g-4">
+	                <div class="col-lg-4 col-md-6">
+	                    <h5 class="fw-bold mb-2 text-warning">TERRIBILIS <span class="text-white">STORE</span></h5>
+	                    <p class="small text-secondary mb-3">Expertos en Herpetología técnica. Pasión por los animales desde 2004.</p>
+	                    
+	                    <a href="https://terribilis.net/" target="_blank" class="btn btn-sm btn-outline-warning fw-bold px-3 py-2 mb-3">
+	                        <i class="bi bi-globe me-2"></i>VISITAR WEB OFICIAL
+	                    </a>
+
+	                </div>
+
+	                <div class="col-lg-3 col-md-6">
+	                    <h6 class="fw-bold mb-3 text-uppercase x-small">Ubicación</h6>
+	                    <p class="small text-secondary">
+	                        <a href="https://maps.app.goo.gl/yLzL7W3S8P998qL97" target="_blank" class="text-decoration-none text-secondary address-link">
+	                            <i class="bi bi-geo-alt-fill text-warning me-2"></i>
+	                            Calle Tortosa 82,<br>
+	                            08918 Badalona (Barcelona)
+	                        </a>
+	                    </p>
+	                </div>
+
+	                <div class="col-lg-3 col-md-6">
+	                    <h6 class="fw-bold mb-3 text-uppercase x-small">Contacto Directo</h6>
+	                    <ul class="list-unstyled small">
+	                        <li class="mb-2">
+	                            <a href="tel:+34933285986" class="text-decoration-none text-secondary hover-accent">
+	                                <i class="bi bi-telephone text-warning me-2"></i>93 328 59 86
+	                            </a>
+	                        </li>
+	                        <li class="mb-2">
+	                            <a href="https://wa.me/34655021539" target="_blank" class="text-decoration-none text-secondary hover-accent">
+	                                <i class="bi bi-whatsapp text-warning me-2"></i>+34 655 02 15 39
+	                            </a>
+	                        </li>
+	                        <li>
+	                            <a href="mailto:info@terribilis.net" class="text-decoration-none text-secondary hover-accent">
+	                                <i class="bi bi-envelope text-warning me-2"></i>info@terribilis.net
+	                            </a>
+	                        </li>
+	                    </ul>
+	                </div>
+
+					<div class="col-lg-2 col-md-6 text-md-end">
+					    <h6 class="fw-bold mb-3 text-uppercase x-small">Redes Sociales</h6>
+					    
+					    <div class="d-flex justify-content-md-end gap-3">
+					        <a href="https://www.facebook.com/terribilis.net?locale=es_ES" 
+					           target="_blank" 
+					           class="text-warning fs-4 transition-icon" 
+					           title="Facebook">
+					            <i class="bi bi-facebook"></i>
+					        </a>
+					        
+					        <a href="https://www.instagram.com/terribilisnet/?hl=es" 
+					           target="_blank" 
+					           class="text-warning fs-4 transition-icon" 
+					           title="Instagram">
+					            <i class="bi bi-instagram"></i>
+					        </a>
+					        
+					        <a href="https://www.youtube.com/@carlosbolanos-reptilesanfi5515" 
+					           target="_blank" 
+					           class="text-warning fs-4 transition-icon" 
+					           title="YouTube">
+					            <i class="bi bi-youtube"></i>
+					        </a>
+					    </div>
+					</div>
+	            </div>
+	        </div>
+	    </div>
+	    
+	    <div class="py-3 bg-black text-center">
+	        <p class="mb-0 x-small text-muted opacity-50">© 2026 - Desarrollado para Terribilis Store</p>
+	    </div>
+	</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

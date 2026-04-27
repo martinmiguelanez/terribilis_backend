@@ -1,0 +1,66 @@
+===========================================================================
+                ESQUEMA LÓGICO: TERRIBILIS STORE DB
+===========================================================================
+
+[ CAPA 1: TAXONOMÍA ] (La jerarquía biológica)
+---------------------------------------------------------------------------
+TAXONOMIC_CLASS (Reptilia)
+       ▲
+       └── TAXONOMIC_ORDER (Squamata)
+              ▲
+              └── TAXONOMIC_FAMILY (Agamidae)
+                     ▲
+                     └── SPECIES (Pogona vitticeps) <--- [NÚCLEO CENTRAL]
+
+
+[ CAPA 2: FICHA TÉCNICA ] (Relaciones 1 a 1: Una fila por cada animal)
+---------------------------------------------------------------------------
+SPECIES ───┬─── ENVIRONMENT      (Temp, Humedad, UVB)
+           ├─── HABITAT          (Terrario, Sustrato, Decoración)
+           ├─── NATURAL_HABITAT  (Región, Clima, Bioma)
+           └─── BRUMATION        (Meses, Temp de hibernación)
+
+
+[ CAPA 3: GALERÍA Y SALUD ] (Relaciones 1 a N: Varias filas por animal)
+---------------------------------------------------------------------------
+SPECIES ───┬─── SPECIES_IMAGE    (URLs de fotos y descripciones)
+           │
+           └── SPECIES_HEALTH    (Vínculo Especie <-> Problema)
+                     ▲
+                     └── HEALTH_ISSUE (Catálogo: nombre y descripción)
+
+
+[ CAPA 4: ALIMENTACIÓN ] (La estructura más compleja)
+---------------------------------------------------------------------------
+SPECIES ───> SPECIES_DIET (Frecuencia y Observaciones)
+                 │
+                 ├───> DIET_TYPE (Categoría: Insectívoro, Omnívoro...)
+                 │
+                 └───> DIET_FOOD (Tabla intermedia de porcentajes)
+                           │
+                           └───> FOOD (El alimento: Grillo, Cucaracha...)
+
+
+===========================================================================
+                    DICCIONARIO DE RELACIONES (JPA)
+===========================================================================
+
+1. TABLAS MANY-TO-ONE (En Java: Objetos simples {})
+   - Species -> TaxonomicFamily
+   - SpeciesDiet -> DietType
+   - DietFood -> Food
+   - SpeciesHealth -> HealthIssue
+
+2. TABLAS ONE-TO-ONE (En Java: Objetos simples {})
+   - Species <-> Environment
+   - Species <-> Habitat
+   - Species <-> NaturalHabitat
+   - Species <-> Brumation
+
+3. TABLAS ONE-TO-MANY (En Java: Listas [])
+   - Species -> List<SpeciesImage>
+   - Species -> List<SpeciesDiet>
+   - Species -> List<SpeciesHealth>
+   - SpeciesDiet -> List<DietFood>
+
+===========================================================================

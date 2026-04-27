@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terribilis Store | Panel de Especies</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES Y BASES --- */
+        :root { 
+            --accent-color: #ffc107; 
+            --dark-bg: #1a1a1a; 
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f4f4f4; 
+            color: #333; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+		/* --- NAVBAR --- */
+       .navbar { background: var(--dark-bg); border-bottom: 3px solid var(--accent-color); padding: 1rem 0; }
+       .brand-logo-img { height: 80px; width: auto; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5)); transition: transform 0.3s ease; }
+       .brand-logo-img:hover { transform: scale(1.05); }
+       .navbar-brand-text { font-weight: 700; color: white; font-size: 2rem; letter-spacing: -1px; }
+       .navbar-brand-text .highlight { color: var(--accent-color); }
+       .nav-link { color: rgba(255,255,255,0.8) !important; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; }
+       .nav-link:hover, .nav-link.active { color: var(--accent-color) !important; }
+
+        /* --- FILTROS Y CABECERA --- */
+        .filter-container { background: #fff; border-radius: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .filter-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 10px; }
+        .filter-btn:hover { transform: translateY(-2px); }
+
+        /* --- TARJETAS DE ESPECIES (CARDS) --- */
+        .species-card { 
+            border: none; 
+            border-radius: 15px; 
+            transition: all 0.3s ease; 
+            background: #fff; 
+            height: 100%;
+        }
+        .species-card:hover { transform: translateY(-8px); box-shadow: var(--card-shadow) !important; }
+        
+        .img-wrapper { height: 240px; overflow: hidden; position: relative; border-radius: 15px 15px 0 0; background: #222; }
+        .species-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* Badges de Dificultad */
+        .difficulty-badge {
+            position: absolute; top: 15px; right: 15px; padding: 6px 14px;
+            border-radius: 8px; font-weight: 800; font-size: 0.65rem;
+            text-transform: uppercase; z-index: 5; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* Controles de imagen (flechas) */
+        .card-controls {
+            position: absolute; top: 50%; width: 100%; display: flex;
+            justify-content: space-between; transform: translateY(-50%);
+            padding: 0 10px; opacity: 0; transition: opacity 0.3s; pointer-events: none;
+        }
+        .img-wrapper:hover .card-controls { opacity: 1; }
+        .btn-card-nav {
+            background: rgba(0, 0, 0, 0.7); color: white; border: none;
+            border-radius: 50%; width: 35px; height: 35px; display: flex;
+            align-items: center; justify-content: center; pointer-events: auto;
+        }
+
+        /* Info Stats */
+        .stat-box { background: #f9f9f9; border: 1px solid #eee; border-radius: 10px; padding: 8px; }
+        .x-small { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; }
+        .italic { font-style: italic; color: #666; font-size: 0.9rem; }
+
+        /* --- BOTONES DE ACCIÓN --- */
+        .btn-admin-custom {
+            background: var(--dark-bg); color: #fff; border: 2px solid var(--accent-color);
+            padding: 16px 40px; font-weight: 700; border-radius: 12px;
+            transition: 0.4s; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-admin-custom:hover { background: var(--accent-color); color: #000; box-shadow: 0 10px 20px rgba(255,193,7,0.3); }
+
+        /* --- FOOTER --- */
+        footer { background: var(--dark-bg); color: #aaa; }
+        .footer-top { background-color: #111 !important; border-top: 4px solid var(--accent-color); }
+        .address-link, .hover-accent { color: #aaa; text-decoration: none; transition: 0.3s; }
+        .address-link:hover, .hover-accent:hover { color: var(--accent-color); }
+        .bg-black { background: #000 !important; }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/* --- ESTILOS PARA LAS PESTAÑAS DEL ADMIN --- */
+
+		/* Fondo del contenedor de pestañas */
+		.admin-tabs-container {
+		    background-color: #f8f9fa; /* Gris muy claro */
+		    padding: 15px 15px 0 15px;
+		    border-bottom: 1px solid #dee2e6;
+		}
+
+		#adminTab {
+		    border-bottom: none; /* Quitamos la línea por defecto de Bootstrap */
+		    gap: 5px;
+		}
+
+		#adminTab .nav-link {
+		    color: #6c757d !important; /* Gris texto estándar */
+		    background-color: #eee !important; /* Pestañas inactivas un poco más oscuras */
+		    border: 1px solid #dee2e6 !important;
+		    border-bottom: none !important;
+		    border-radius: 8px 8px 0 0;
+		    font-size: 0.85rem;
+		    font-weight: 600;
+		    padding: 10px 15px;
+		    text-transform: uppercase;
+		    transition: all 0.2s ease;
+		}
+
+		/* Hover: Cuando pasas el ratón */
+		#adminTab .nav-link:hover {
+		    background-color: #e2e2e2 !important;
+		    color: #333 !important;
+		}
+
+		/* ACTIVA: La pestaña en la que estás */
+		#adminTab .nav-link.active {
+		    color: #000 !important;
+		    background-color: #fff !important; /* Fondo blanco para unir con el panel */
+		    border-top: 4px solid #ffc107 !important; /* Línea naranja/amarilla arriba */
+		    border-left: 1px solid #dee2e6 !important;
+		    border-right: 1px solid #dee2e6 !important;
+		    margin-top: -5px; /* Efecto de que sobresale */
+		    padding-top: 12px;
+		    z-index: 2;
+		}
+
+		/* El contenido del formulario */
+		.tab-content {
+		    background-color: #fff;
+		    border-radius: 0 0 12px 12px;
+		}
+    </style>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+	       <div class="container">
+	           <a class="navbar-brand d-flex align-items-center" href="index.html">
+	               <img src="/img/species/prueba.png" alt="Logo" class="brand-logo-img me-2">
+	               <span class="navbar-brand-text">TERRIBILIS <span class="highlight">.NET</span></span>
+	           </a>
+	           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+	               <span class="navbar-toggler-icon"></span>
+	           </button>
+	           <div class="collapse navbar-collapse" id="navbarNav">
+	               <ul class="navbar-nav ms-auto align-items-center">
+	                   <li class="nav-item"><a class="nav-link active px-3 fw-bold" href="index.html"><i class="bi bi-grid-fill me-1"></i> Catálogo</a></li>
+	                   <li class="nav-item"><a class="nav-link px-3 fw-bold" href="about_us.html"><i class="bi bi-people-fill me-1"></i> Sobre Nosotros</a></li>
+	                   <li class="nav-item ms-lg-3"><a class="btn btn-outline-warning fw-bold px-4" href="https://terribilis.net/tienda-2/" target="_blank">Tienda Online</a></li>
+	               </ul>
+	           </div>
+	       </div>
+	   </nav>
+
+    <main class="container py-5">
+        <div class="row align-items-center mb-5">
+            <div class="col-md-6 text-center text-md-start">
+                <h1 class="display-5 fw-bold mb-1">Panel de Especies</h1>
+                <p class="text-muted fs-5">Base de datos técnica de herpetología avanzada</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+                <span class="badge bg-dark rounded-pill px-4 py-2 fs-6 shadow-sm" id="count-badge">Cargando catálogo...</span>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-12">
+				<div class="filter-container p-3 d-flex flex-wrap justify-content-center gap-3">
+				    <button class="btn btn-warning filter-btn active px-4 fw-bold" onclick="filterSpecies('all', this)">
+				        <i class="bi bi-infinity me-2"></i> Todos
+				    </button>
+				    
+				    <button class="btn btn-outline-dark filter-btn px-4 fw-bold" onclick="filterSpecies('Reptilia', this)">
+				        <i class="bi bi-bug-fill me-2"></i> Reptiles
+				    </button>
+				    
+				    <button class="btn btn-outline-dark filter-btn px-4 fw-bold" onclick="filterSpecies('Amphibia', this)">
+				        <i class="bi bi-droplet-fill me-2"></i> Anfibios
+				    </button>
+				</div>
+            </div>
+        </div>
+
+        <div id="species-grid" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            </div>
+
+        <div class="text-center mt-5 py-5 border-top border-opacity-10">
+            <button class="btn-admin-custom shadow-lg" id="btnNuevoAnimal" data-bs-toggle="modal" data-bs-target="#adminModal">
+                <i class="bi bi-plus-circle-fill me-2"></i> Registrar Nueva Especie
+            </button>
+        </div>
+    </main>
+
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" id="modal-body-content"></div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-hidden="true">
+        </div>
+
+    <footer class="footer">
+        <div class="footer-top py-5">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <h5 class="fw-bold mb-3 text-warning">TERRIBILIS <span class="text-white">STORE</span></h5>
+                        <p class="small mb-4">Referentes en la cría y mantenimiento especializado de fauna exótica en España. Rigor científico y pasión animal.</p>
+                        <a href="https://terribilis.net/" target="_blank" class="btn btn-sm btn-outline-warning fw-bold py-2 px-3">
+                            <i class="bi bi-globe me-2"></i>WEB OFICIAL TERRIBILIS
+                        </a>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 ps-lg-5">
+                        <h6 class="fw-bold mb-3 text-uppercase x-small">Nuestra Sede</h6>
+                        <p class="small">
+                            <a href="https://maps.app.goo.gl/..." target="_blank" class="address-link">
+                                <i class="bi bi-geo-alt-fill text-warning me-2"></i>
+                                Calle Tortosa 82, Badalona<br>
+                                Barcelona, España
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <h6 class="fw-bold mb-3 text-uppercase x-small">Atención Técnica</h6>
+                        <ul class="list-unstyled small">
+                            <li class="mb-2"><a href="tel:+34933285986" class="hover-accent"><i class="bi bi-telephone text-warning me-2"></i>93 328 59 86</a></li>
+                            <li class="mb-2"><a href="https://wa.me/34655021539" class="hover-accent"><i class="bi bi-whatsapp text-warning me-2"></i>+34 655 02 15 39</a></li>
+                            <li><a href="mailto:info@terribilis.net" class="hover-accent"><i class="bi bi-envelope text-warning me-2"></i>info@terribilis.net</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-2 text-md-end">
+                        <h6 class="fw-bold mb-3 text-uppercase x-small">Comunidad</h6>
+                        <div class="d-flex justify-content-md-end gap-3">
+                            <a href="#" class="text-warning fs-4 transition-icon"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="text-warning fs-4 transition-icon"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="text-warning fs-4 transition-icon"><i class="bi bi-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="py-3 bg-black text-center">
+            <span class="x-small text-muted opacity-50">© 2026 - Herpetología Técnica Avanzada - Terribilis Store</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,404 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+        
+        <div class="modal-header bg-dark text-white p-4">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-database-fill-add fs-3 text-warning me-3"></i>
+                <div>
+                    <h5 class="modal-title fw-bold mb-0">SISTEMA DE GESTIÓN HERPETOLÓGICA</h5>
+                    <small class="text-warning opacity-75 text-uppercase">Nueva Ficha de Especie</small>
+                </div>
+            </div>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="bg-light border-bottom px-4 pt-3">
+			<div class="admin-tabs-container">
+			    <ul class="nav nav-tabs" id="adminTab" role="tablist">
+			        <li class="nav-item">
+			            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pane-ident" type="button">1. Taxonomía</button>
+			        </li>
+			        <li class="nav-item">
+			            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pane-habitat" type="button">2. Hábitat y Origen</button>
+			        </li>
+			        <li class="nav-item">
+			            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pane-env" type="button">3. Ambiente y Luz</button>
+			        </li>
+			        <li class="nav-item">
+			            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pane-cuidados" type="button">4. Dieta y Suplementos</button>
+			        </li>
+			        <li class="nav-item">
+			            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pane-extras" type="button">5. Brumación y Salud</button>
+			        </li>
+			    </ul>
+			</div>
+        </div>
+
+        <div class="modal-body p-4 bg-white">
+            <form id="speciesForm" class="needs-validation" novalidate>
+                <div class="tab-content">
+                    
+					<div class="tab-pane fade show active" id="pane-ident">
+					    <div class="row g-3">
+					        <div class="col-md-6">
+					            <label class="form-label small fw-bold">Nombre Común</label>
+					            <div class="input-group">
+					                <span class="input-group-text bg-light"><i class="bi bi-chat-left-text"></i></span>
+					                <input type="text" id="add-nombreComun" class="form-control" required placeholder="Ej: Rana de Ojos Rojos">
+					            </div>
+					        </div>
+					        <div class="col-md-6">
+					            <label class="form-label small fw-bold">Nombre Científico</label>
+					            <div class="input-group">
+					                <span class="input-group-text bg-light"><i class="bi bi-dna"></i></span>
+					                <input type="text" id="add-nombreCientifico" class="form-control italic" required placeholder="Ej: Agalychnis callidryas">
+					            </div>
+					        </div>
+
+					        <div class="col-md-4">
+					            <label class="form-label small fw-bold text-primary"><i class="bi bi-diagram-3"></i> Clase</label>
+					            <select id="add-classId" class="form-select border-primary shadow-sm" required>
+					                </select>
+					        </div>
+					        <div class="col-md-4">
+					            <label class="form-label small fw-bold text-primary"><i class="bi bi-layers"></i> Orden</label>
+					            <select id="add-orderId" class="form-select border-primary shadow-sm" required disabled>
+					                <option value="">Seleccione Clase...</option>
+					            </select>
+					        </div>
+					        <div class="col-md-4">
+					            <label class="form-label small fw-bold text-primary"><i class="bi bi-tags"></i> Familia</label>
+					            <select id="add-familyId" class="form-select border-primary shadow-sm" required disabled>
+					                <option value="">Seleccione Orden...</option>
+					            </select>
+					        </div>
+
+					        <div class="col-md-4">
+					            <label class="form-label small fw-bold">Dificultad</label>
+					            <div class="input-group">
+					                <span class="input-group-text bg-white"><i class="bi bi-mortarboard"></i></span>
+					                <select id="add-dificultad" class="form-select shadow-sm" required>
+					                    <option value="" disabled selected>Seleccionar...</option>
+					                    <option value="Principiante">Principiante</option>
+					                    <option value="Media">Media</option>
+					                    <option value="Avanzada">Avanzada</option>
+					                </select>
+					            </div>
+					        </div>
+
+					        <div class="col-md-4">
+					            <label class="form-label small fw-bold">Nivel de Peligrosidad</label>
+					            <div class="input-group">
+					                <span class="input-group-text bg-white"><i class="bi bi-exclamation-triangle"></i></span>
+					                <select id="add-peligrosidad" class="form-select shadow-sm" required>
+					                    <option value="" disabled selected>Seleccionar...</option>
+					                    <option value="Nula (Inofensivo)">Nula (Inofensivo)</option>
+					                    <option value="Baja (Posible mordisco/picadura leve)">Baja (Posible mordisco)</option>
+					                    <option value="Media (Manejo experto / Veneno no letal)">Media (Manejo experto)</option>
+					                    <option value="Alta (Peligro de muerte / Potencialmente letal)">Alta (Peligro muerte)</option>
+					                </select>
+					            </div>
+					        </div>
+
+					        <div class="col-md-4">
+					            <label class="form-label small fw-bold">Actividad</label>
+					            <div class="input-group">
+					                <span class="input-group-text bg-white"><i class="bi bi-clock-history"></i></span>
+					                <select id="add-actividad" class="form-select shadow-sm" required>
+					                    <option value="" disabled selected>Seleccionar...</option>
+					                    <option value="Diurno">Diurno</option>
+					                    <option value="Nocturno">Nocturno</option>
+					                    <option value="Crepuscular">Crepuscular</option>
+					                </select>
+					            </div>
+					        </div>
+
+					        <div class="col-md-4">
+					            <label class="form-label small fw-bold">Esperanza Vida (años)</label>
+					            <div class="input-group">
+					                <span class="input-group-text bg-light"><i class="bi bi-hourglass-split"></i></span>
+					                <input type="number" id="add-vida" class="form-control">
+					            </div>
+					        </div>
+					        <div class="col-md-4">
+					            <label class="form-label small fw-bold">Tamaño Máx (cm)</label>
+					            <div class="input-group">
+					                <span class="input-group-text bg-light"><i class="bi bi-rulers"></i></span>
+					                <input type="number" id="add-tamano" class="form-control">
+					            </div>
+					        </div>
+					        <div class="col-md-4">
+					            <label class="form-label small fw-bold">Peso Máx (g)</label>
+					            <div class="input-group">
+					                <span class="input-group-text bg-light"><i class="bi bi-speedometer2"></i></span>
+					                <input type="number" id="add-peso" class="form-control">
+					            </div>
+					        </div>
+
+					        <div class="col-12">
+					            <label class="form-label small fw-bold">URL Imagen Principal</label>
+					            <input type="text" id="add-imgUrl" class="form-control" placeholder="https://...">
+					        </div>
+					        <div class="col-12">
+					            <label class="form-label small fw-bold">Descripción Corta</label>
+					            <textarea id="add-descripcion" class="form-control" rows="2" placeholder="Breve resumen de la especie..."></textarea>
+					        </div>
+					    </div>
+					</div>
+
+					<div class="tab-pane fade" id="pane-habitat">
+					    <h6 class="text-success fw-bold border-bottom pb-2 mb-3">
+					        <i class="bi bi-globe-americas me-2"></i>NATURAL HABITAT (ORIGEN)
+					    </h6>
+					    <div class="row g-3 mb-4">
+							<div class="col-md-3">
+							            <label class="form-label small fw-bold">Región Geográfica</label>
+							            <select id="nat-region" class="form-select shadow-sm">
+							                <option value="" disabled selected>Seleccionar...</option>
+							                <option value="África Continental">África Continental</option>
+							                <option value="Madagascar e Islas">Madagascar e Islas del Índico</option>
+							                <option value="América del Norte">América del Norte</option>
+							                <option value="América del Sur (Amazonía/Chaco)">América del Sur (Amazonía/Chaco)</option>
+							                <option value="América Central y Caribe">América Central y Caribe</option>
+							                <option value="Asia (Sudeste Asiático)">Asia (Sudeste Asiático)</option>
+							                <option value="Asia (Oriente Medio)">Asia (Oriente Medio)</option>
+							                <option value="Europa">Europa</option>
+							                <option value="Oceanía (Australia/N. Zelanda)">Oceanía (Australia/N. Zelanda)</option>
+							                <option value="Islas del Pacífico">Islas del Pacífico (Melanesia/Polinesia)</option>
+							                <option value="Cosmopolita">Cosmopolita / Introducida</option>
+							            </select>
+							        </div>
+
+							        <div class="col-md-3">
+							            <label class="form-label small fw-bold">Clima Predominante</label>
+							            <select id="nat-clima" class="form-select shadow-sm">
+							                <option value="" disabled selected>Seleccionar...</option>
+							                <option value="Tropical Húmedo">🏝️ Tropical Húmedo (Selva)</option>
+							                <option value="Tropical Monzónico">🌧️ Tropical Monzónico</option>
+							                <option value="Subtropical">🌦️ Subtropical</option>
+							                <option value="Ecuatorial">🌀 Ecuatorial (Calor constante)</option>
+							                <option value="Árido / Desértico">🏜️ Árido / Desértico</option>
+							                <option value="Semiárido / Estepa">🌵 Semiárido / Estepa</option>
+							                <option value="Mediterráneo">☀️ Mediterráneo</option>
+							                <option value="Templado Continental">🍃 Templado Continental</option>
+							                <option value="Oceánico">🌊 Oceánico / Atlántico</option>
+							                <option value="Alpino / Alta Montaña">🏔️ Alpino / Alta Montaña</option>
+							            </select>
+							        </div>
+
+							        <div class="col-md-3">
+							            <label class="form-label small fw-bold">Bioma / Ecosistema</label>
+							            <select id="nat-bioma" class="form-select shadow-sm">
+							                <option value="" disabled selected>Seleccionar...</option>
+							                <option value="Selva Perennifolia">Selva Perennifolia (Siempre verde)</option>
+							                <option value="Bosque Seco Tropical">Bosque Seco Tropical</option>
+							                <option value="Sabana Arbolada">Sabana Arbolada</option>
+							                <option value="Desierto Arenoso / Pedregoso">Desierto Arenoso / Pedregoso</option>
+							                <option value="Matorral Xerófilo">Matorral Xerófilo (Espinoso)</option>
+							                <option value="Pradera / Pastizal">Pradera / Pastizal</option>
+							                <option value="Manglar / Estuario">Manglar / Estuario</option>
+							                <option value="Pantano / Humedal">Pantano / Humedal</option>
+							                <option value="Bosque de Coníferas">Bosque de Coníferas / Taiga</option>
+							                <option value="Cueva / Cavernícola">Cueva / Cavernícola (Troglofauna)</option>
+							            </select>
+							        </div>
+					        <div class="col-md-3">
+					            <label class="form-label small fw-bold">Altitud</label>
+					            <div class="input-group">
+					                <input type="text" id="nat-altitud" class="form-control shadow-sm" placeholder="Ej: 0-500">
+					                <span class="input-group-text">msnm</span>
+					            </div>
+					        </div>
+					    </div>
+
+					    <h6 class="text-primary fw-bold border-bottom pb-2 mb-3">
+					        <i class="bi bi-house-door me-2"></i>HABITAT (EL TERRARIO)
+					    </h6>
+						<div class="row g-3">
+						        <div class="col-md-4">
+						            <label class="form-label small fw-bold">Tipo de Terrario</label>
+						            <select id="hab-tipo" class="form-select shadow-sm">
+						                <option value="" disabled selected>Seleccionar...</option>
+						                <option value="Terrario Selva / Tropical Húmedo">Selva / Tropical Húmedo</option>
+						                <option value="Terrario Desértico / Árido">Desértico / Árido</option>
+						                <option value="Terrario Semitropical / Sabana">Semitropical / Sabana</option>
+						                <option value="Terrario Bosque Templado">Bosque Templado</option>
+						                <option value="Paludario">Paludario (Agua + Tierra)</option>
+						                <option value="Acuaterrario">Acuaterrario (Tortugas/Anfibios)</option>
+						                <option value="Flexarium">Flexarium (Malla para Camaleones)</option>
+						                <option value="Rack">Rack Profesional</option>
+						            </select>
+						        </div>
+
+						        <div class="col-md-4">
+						            <label class="form-label small fw-bold">Tamaño Mínimo (L x A x H)</label>
+						            <input type="text" id="hab-size" class="form-control shadow-sm" placeholder="Ej: 90x45x60 cm">
+						        </div>
+						        <div class="col-md-4">
+						            <label class="form-label small fw-bold">Volumen Mínimo</label>
+						            <div class="input-group">
+						                <input type="number" id="hab-litros" class="form-control shadow-sm" placeholder="0">
+						                <span class="input-group-text bg-light">Litros</span>
+						            </div>
+						        </div>
+
+						        <div class="col-md-4">
+						            <label class="form-label small fw-bold text-secondary">Mezcla de Sustratos</label>
+						            <div class="border rounded p-2 bg-white shadow-sm" style="max-height: 150px; overflow-y: auto;">
+						                <div class="form-check small"><input class="form-check-input check-sustrato" type="checkbox" value="Fibra de Coco"> Fibra de Coco</div>
+						                <div class="form-check small"><input class="form-check-input check-sustrato" type="checkbox" value="Musgo Sphagnum"> Musgo Sphagnum</div>
+						                <div class="form-check small"><input class="form-check-input check-sustrato" type="checkbox" value="Arena de Desierto"> Arena de Desierto</div>
+						                <div class="form-check small"><input class="form-check-input check-sustrato" type="checkbox" value="Corteza de Pino/Abeto"> Corteza de Pino/Abeto</div>
+						                <div class="form-check small"><input class="form-check-input check-sustrato" type="checkbox" value="Aspen/Viruta Álamo"> Aspen (Viruta de Álamo)</div>
+						                <div class="form-check small"><input class="form-check-input check-sustrato" type="checkbox" value="Hojarasca Roble/Encina"> Hojarasca (Roble/Encina)</div>
+						                <div class="form-check small"><input class="form-check-input check-sustrato" type="checkbox" value="Arcilla/Excavator"> Arcilla (Excavator)</div>
+						                <div class="form-check small"><input class="form-check-input check-sustrato" type="checkbox" value="Turba Rubia"> Turba Rubia</div>
+										<div class="form-check small"><input class="form-check-input check-sustrato" type="checkbox" value="Papel de Cocina"> Papel de Cocina</div>
+						            </div>
+						        </div>
+
+						        <div class="col-md-4">
+						            <label class="form-label small fw-bold text-secondary">Decoración y Zonas Críticas</label>
+						            <div class="border rounded p-2 bg-white shadow-sm" style="max-height: 150px; overflow-y: auto;">
+						                <div class="form-check small text-danger"><input class="form-check-input check-decor" type="checkbox" value="Zona Caliente (Basking)"> <strong>Punto de Calor (Basking)</strong></div>
+						                <div class="form-check small text-info"><input class="form-check-input check-decor" type="checkbox" value="Refugio Húmedo"> <strong>Refugio Húmedo</strong></div>
+						                <div class="form-check small text-primary"><input class="form-check-input check-decor" type="checkbox" value="Zona Fría"> <strong>Zona Fría</strong></div>
+						                <hr class="my-1">
+						                <div class="form-check small"><input class="form-check-input check-decor" type="checkbox" value="Ramas/Troncos"> Ramas/Troncos</div>
+						                <div class="form-check small"><input class="form-check-input check-decor" type="checkbox" value="Plantas Naturales/Bioactivo"> Plantas Naturales (Bioactivo)</div>
+						                <div class="form-check small"><input class="form-check-input check-decor" type="checkbox" value="Rocas/Piedras Pizarra"> Rocas / Piedras Pizarra</div>
+						                <div class="form-check small"><input class="form-check-input check-decor" type="checkbox" value="Cueva/Refugio Seco"> Cueva / Escondites</div>
+						                <div class="form-check small"><input class="form-check-input check-decor" type="checkbox" value="Lianas/Cuerdas"> Lianas / Cuerdas</div>
+						                <div class="form-check small"><input class="form-check-input check-decor" type="checkbox" value="Bebedero/Piscina"> Bebedero</div>
+										<div class="form-check small"><input class="form-check-input check-decor" type="checkbox" value="Piscina"> Piscina</div>
+						            </div>
+						        </div>
+
+						        <div class="col-md-4">
+						            <label class="form-label small fw-bold text-secondary">Enriquecimiento y Estímulos</label>
+						            <div class="border rounded p-2 bg-white shadow-sm" style="max-height: 150px; overflow-y: auto;">
+						                <div class="form-check small"><input class="form-check-input check-enriq" type="checkbox" value="Cascada de agua"> Cascada de agua</div>
+						                <div class="form-check small"><input class="form-check-input check-enriq" type="checkbox" value="Zonas de excavación"> Zonas de excavación</div>
+						                <div class="form-check small"><input class="form-check-input check-enriq" type="checkbox" value="Presa viva (Caza)"> Estimulación por caza</div>
+						                <div class="form-check small"><input class="form-check-input check-enriq" type="checkbox" value="Sistema de Lluvia"> Sistema de Lluvia</div>
+						                <div class="form-check small"><input class="form-check-input check-enriq" type="checkbox" value="Nebulizador Ultrasónico"> Nebulizador Ultrasónico</div>
+						                <div class="form-check small"><input class="form-check-input check-enriq" type="checkbox" value="Fondos 3D Escalables"> Fondos 3D Escalables</div>
+						            </div>
+						        </div>
+						    </div>
+					</div>
+
+                    <div class="tab-pane fade" id="pane-env">
+                        <h6 class="text-danger fw-bold border-bottom pb-2 mb-3">ENVIRONMENT (PARÁMETROS TÉCNICOS)</h6>
+                        <div class="row g-3">
+                            <div class="col-md-3"><label class="small">Tª Día Min</label><input type="number" id="env-tDiaMin" class="form-control"></div>
+                            <div class="col-md-3"><label class="small">Tª Día Max</label><input type="number" id="env-tDiaMax" class="form-control"></div>
+                            <div class="col-md-3"><label class="small text-primary">Tª Noche Min</label><input type="number" id="env-tNocheMin" class="form-control"></div>
+                            <div class="col-md-3"><label class="small text-primary">Tª Noche Max</label><input type="number" id="env-tNocheMax" class="form-control"></div>
+                            <div class="col-md-3"><label class="small">Humedad Min%</label><input type="number" id="env-hMin" class="form-control"></div>
+                            <div class="col-md-3"><label class="small">Humedad Max%</label><input type="number" id="env-hMax" class="form-control"></div>
+                            <div class="col-md-3"><label class="small">Horas de Luz</label><input type="number" id="env-horas" class="form-control"></div>
+                            <div class="col-md-3">
+                                <label class="small">¿UVB Requerido?</label>
+                                <select id="env-uvb" class="form-select"><option value="true">Sí</option><option value="false">No</option></select>
+                            </div>
+                        </div>
+                    </div>
+
+					<div class="tab-pane fade" id="pane-cuidados">
+					    <div class="row g-4">
+					        <div class="col-md-4 border-end">
+					            <h6 class="fw-bold text-warning mb-3">
+					                <i class="bi bi-egg-fried me-2"></i>ESTILO DE DIETA
+					            </h6>
+					            <div class="mb-3">
+					                <label class="form-label small fw-bold">Tipo Dieta (Base)</label>
+					                <select id="diet-type-id" class="form-select shadow-sm"></select>
+					            </div>
+					            <div class="mb-3">
+					                <label class="form-label small fw-bold">Frecuencia</label>
+					                <select id="diet-frecuencia" class="form-select shadow-sm">
+					                    <option value="" disabled selected>Seleccionar...</option>
+					                    <option value="Diaria">Diaria</option>
+					                    <option value="Días alternos">Días alternos</option>
+					                    <option value="2-3 veces por semana">2-3 veces por semana</option>
+					                    <option value="Semanal">Semanal</option>
+					                </select>
+					            </div>
+					            <div class="mb-3">
+					                <label class="form-label small fw-bold">Notas Nutricionales</label>
+					                <textarea id="diet-obs" class="form-control shadow-sm" rows="3" placeholder="Ej: No abusar de presas grasas..."></textarea>
+					            </div>
+					        </div>
+
+					        <div class="col-md-4 border-end">
+					            <h6 class="fw-bold text-success mb-3">
+					                <i class="bi bi-bug me-2"></i>ALIMENTOS (FOOD)
+					            </h6>
+					            <div id="food-list" class="row g-2 overflow-auto" style="max-height: 350px;">
+					                </div>
+					        </div>
+
+					        <div class="col-md-4">
+					            <h6 class="fw-bold text-info mb-3">
+					                <i class="bi bi-capsule me-2"></i>SUPLEMENTACIÓN
+					            </h6>
+					            <div id="admin-supplement-list" class="row g-2 overflow-auto" style="max-height: 350px;">
+					                </div>
+					        </div>
+					    </div>
+					</div>
+
+					<div class="tab-pane fade" id="pane-extras">
+					    <div class="row g-4">
+					        <div class="col-12">
+					            <h6 class="fw-bold text-info border-bottom pb-2 mb-3">
+					                <i class="bi bi-snow me-2"></i>BRUMATION / REPOSO
+					            </h6>
+					            <div class="row g-3 align-items-end">
+					                <div class="col-md-2">
+					                    <div class="form-check form-switch mb-2">
+					                        <input class="form-check-input" type="checkbox" id="bru-req">
+					                        <label class="form-check-label fw-bold">¿Requiere?</label>
+					                    </div>
+					                </div>
+					                <div class="col-md-2">
+					                    <label class="small fw-bold">Meses</label>
+					                    <input type="text" id="bru-meses" class="form-control" placeholder="Ej: Nov-Feb">
+					                </div>
+					                <div class="col-md-2">
+					                    <label class="small fw-bold">Tª Mínima</label>
+					                    <div class="input-group">
+					                        <input type="number" id="bru-tMin" class="form-control">
+					                        <span class="input-group-text">°C</span>
+					                    </div>
+					                </div>
+					                <div class="col-md-6">
+					                    <label class="small fw-bold">Descripción del proceso</label>
+					                    <input type="text" id="bru-desc" class="form-control" placeholder="Reducción paulatina de luz y alimento...">
+					                </div>
+					            </div>
+					        </div>
+
+							<div class="col-md-12">
+							    <label class="form-label small fw-bold text-danger">
+							        <i class="bi bi-exclamation-triangle me-1"></i> Posibles Problemas de Salud
+							    </label>
+							    <div id="health-list" class="row g-2 overflow-auto p-2 bg-light border rounded" style="max-height: 350px;">
+							        </div>
+							</div>
+					    </div>
+					</div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer bg-light p-4">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">DESCARTAR</button>
+            <button type="submit" form="speciesForm" class="btn btn-dark rounded-pill px-5 fw-bold shadow">
+                GUARDAR FICHA COMPLETA <i class="bi bi-cloud-arrow-up-fill ms-2"></i>
+            </button>
+        </div>
+    </div>
+</div>
