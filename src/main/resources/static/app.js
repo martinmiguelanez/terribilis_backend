@@ -359,305 +359,234 @@ function showDetail(id) {
 
     // Render modal
     document.getElementById('modal-body-content').innerHTML = `
-        <div class="modal-header bg-dark text-white border-0 py-3">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-clipboard2-pulse me-3 fs-3 text-warning"></i>
-                <div>
-                    <h5 class="modal-title fw-bold mb-0">${nombreComun}</h5>
-                    <small class="text-uppercase opacity-75 italic">${nombreCientifico}</small>
+
+        <!-- HEADER -->
+        <div class="modal-header border-0 p-0">
+            <div class="w-100 px-4 py-3 d-flex align-items-center justify-content-between"
+                 style="background:linear-gradient(135deg,#0d1117 0%,#161b22 100%);border-bottom:2px solid #ffc107;">
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width:48px;height:48px;background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.25);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-clipboard2-pulse fs-4 text-warning"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title fw-bold mb-0 text-white" style="font-family:'Montserrat',sans-serif;">${nombreComun}</h5>
+                        <small class="text-warning opacity-70" style="font-style:italic;font-size:0.78rem;opacity:0.75;">${nombreCientifico}</small>
+                    </div>
                 </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-        <div class="modal-body p-4">
+        <div class="modal-body p-4" style="background:#f8f9fb;">
             <div class="row g-4">
 
                 <!-- IZQUIERDA -->
-                <div class="col-md-5">
+                <div class="col-md-5 d-flex flex-column gap-3">
 
                     <!-- Imágenes -->
-                    <div class="mb-3">
-                        ${renderImageCarousel(images, animalId, nombreComun)}
-                    </div>
+                    <div>${renderImageCarousel(images, animalId, nombreComun)}</div>
 
                     <!-- Actividad -->
-                    <div class="badge bg-dark w-100 p-2 mb-3">
-                        <i class="bi bi-${actBadge.icon}"></i> ${actBadge.txt}
+                    <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-3"
+                         style="background:${act.includes('diur') ? 'rgba(255,193,7,0.08)' : act.includes('noct') ? 'rgba(99,102,241,0.08)' : 'rgba(100,116,139,0.08)'};
+                                border:1px solid ${act.includes('diur') ? 'rgba(255,193,7,0.22)' : act.includes('noct') ? 'rgba(99,102,241,0.22)' : 'rgba(100,116,139,0.22)'};">
+                        <i class="bi bi-${actBadge.icon}" style="font-size:1.1rem;color:${act.includes('diur') ? '#ffc107' : act.includes('noct') ? '#818cf8' : '#94a3b8'};"></i>
+                        <span class="fw-bold small" style="color:${act.includes('diur') ? '#b45309' : act.includes('noct') ? '#4f46e5' : '#6b7280'};">${actBadge.txt}</span>
                     </div>
 
-                    <!-- Stats -->
-                    <div class="card bg-light border-0 rounded-4 mb-3">
-                        <div class="card-body py-3 text-center">
-                            <div class="row g-0">
-                                ${renderMiniStat('Tamano', `${tamanoPromedioCm}cm`, true)}
-                                ${renderMiniStat('Peso', `${pesoPromedioGramos}g`, true)}
-                                ${renderMiniStat('Vida', `${esperanzaVida}a`, false)}
-                            </div>
+                    <!-- Stats strip oscuro -->
+                    <div class="rounded-3 overflow-hidden" style="background:#0d1117;border:1px solid rgba(255,255,255,0.06);">
+                        <div class="row g-0">
+                            ${renderMiniStat('Tamaño', `${tamanoPromedioCm || '--'}cm`, true)}
+                            ${renderMiniStat('Peso', `${pesoPromedioGramos || '--'}g`, true)}
+                            ${renderMiniStat('Vida', `${esperanzaVida || '--'}a`, false)}
                         </div>
                     </div>
 
                     <!-- Hábitat natural -->
-                    <div class="p-3 rounded-4 border bg-white shadow-sm">
-                        <h6 class="fw-bold mb-3 small text-success text-uppercase">
+                    <div class="rounded-3 p-3" style="background:#fff;border:1px solid #e5e7eb;">
+                        <p class="fw-bold mb-2" style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:#16a34a;border-bottom:1px solid #dcfce7;padding-bottom:6px;">
                             <i class="bi bi-globe-americas me-2"></i>Hábitat Natural
-                        </h6>
-
+                        </p>
                         <div class="mb-2">
-                            <small class="text-muted d-block">Región y Clima</small>
+                            <small class="text-muted d-block" style="font-size:0.68rem;">Región y Clima</small>
                             <span class="small fw-bold">${naturalHabitat?.region || 'N/A'}</span>
-                            <span class="badge bg-success-subtle text-success ms-1">
-                                ${naturalHabitat?.clima || 'N/A'}
-                            </span>
+                            <span class="ms-1" style="display:inline-block;padding:2px 8px;border-radius:20px;font-size:0.58rem;font-weight:700;background:rgba(22,163,74,0.08);color:#16a34a;border:1px solid rgba(22,163,74,0.2);">${naturalHabitat?.clima || 'N/A'}</span>
                         </div>
-
                         <div>
-                            <small class="text-muted d-block">Bioma específico</small>
+                            <small class="text-muted d-block" style="font-size:0.68rem;">Bioma</small>
                             <span class="small fw-bold">${naturalHabitat?.bioma || 'N/A'}</span>
                         </div>
                     </div>
                 </div>
 
-
                 <!-- DERECHA -->
-                <div class="col-md-7">
+                <div class="col-md-7 d-flex flex-column gap-3">
 
-                    <!-- TERRARIO -->
-                    <section class="mb-4">
-                        <h6 class="fw-bold border-bottom pb-2 text-primary">
-                            <i class="bi bi-box-seam me-2"></i>CONFIGURACIÓN DEL TERRARIO
-                        </h6>
+                    <!-- Terrario -->
+                    <div class="rounded-3 p-3" style="background:#fff;border:1px solid #e5e7eb;">
+                        <p class="fw-bold mb-3" style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:#2563eb;border-bottom:1px solid #dbeafe;padding-bottom:6px;">
+                            <i class="bi bi-box-seam me-2"></i>Configuración del Terrario
+                        </p>
 
-                        <div class="row g-2 mt-1 mb-3">
-
+                        <div class="row g-2 mb-3">
                             <div class="col-6">
-                                <div class="p-2 border rounded bg-white shadow-sm h-100">
-                                    <small class="text-muted x-small d-block text-uppercase fw-bold">
-                                        Tipo de Terrario
-                                    </small>
-                                    <div class="small fw-bold text-primary">
-                                        ${habitat?.tipoTerrario || habitat?.tipo || 'No definido'}
-                                    </div>
+                                <div class="p-2 rounded-2" style="background:#eff6ff;border:1px solid #dbeafe;">
+                                    <small class="d-block" style="font-size:0.6rem;text-transform:uppercase;font-weight:800;color:#1e40af;letter-spacing:0.5px;">Tipo</small>
+                                    <div class="small fw-bold text-primary">${habitat?.tipoTerrario || habitat?.tipo || 'No definido'}</div>
                                 </div>
                             </div>
-
                             <div class="col-6">
-                                <div class="p-2 border rounded bg-white shadow-sm h-100">
-                                    <small class="text-muted x-small d-block text-uppercase fw-bold">
-                                        Tamano Mínimo (L x A x H)
-                                    </small>
-                                    <div class="small fw-bold">
-                                        <i class="bi bi-arrows-fullscreen me-1 text-secondary"></i>
-                                        ${habitat?.tamanoMinimoCm || 'No definido'}
-                                    </div>
+                                <div class="p-2 rounded-2" style="background:#f8f9fb;border:1px solid #e5e7eb;">
+                                    <small class="d-block" style="font-size:0.6rem;text-transform:uppercase;font-weight:800;color:#6b7280;letter-spacing:0.5px;">Tamaño mínimo</small>
+                                    <div class="small fw-bold"><i class="bi bi-arrows-fullscreen me-1 text-secondary"></i>${habitat?.tamanoMinimoCm || 'N/A'}</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Sustrato -->
-                        <div class="mb-3">
-                            <small class="fw-bold text-secondary x-small text-uppercase">
-                                Mezcla de Sustrato
-                            </small>
-                            <div class="d-flex flex-wrap gap-1 mt-1">
-                                ${
-                                    habitat?.sustrato
+                        <div class="mb-2">
+                            <small class="d-block mb-1" style="font-size:0.6rem;text-transform:uppercase;font-weight:800;color:#6b7280;letter-spacing:0.5px;">Sustrato</small>
+                            <div class="d-flex flex-wrap gap-1">
+                                ${habitat?.sustrato
                                     ? habitat.sustrato.split(',').map(s =>
-                                        `<span class="badge bg-light text-dark border x-small">${s.trim()}</span>`
+                                        `<span style="display:inline-block;padding:2px 8px;border-radius:6px;font-size:0.6rem;font-weight:600;background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;">${s.trim()}</span>`
                                       ).join('')
-                                    : '<span class="text-muted x-small">No definido</span>'
-                                }
+                                    : '<span class="text-muted" style="font-size:0.75rem;">No definido</span>'}
                             </div>
                         </div>
 
-                        <!-- Decoración -->
-                        <div class="mb-3">
-                            <small class="fw-bold text-secondary x-small text-uppercase">
-                                Decoración y Puntos Clave
-                            </small>
-                            <div class="d-flex flex-wrap gap-1 mt-1">
-                                ${
-                                    habitat?.decoracion
+                        <div class="mb-2">
+                            <small class="d-block mb-1" style="font-size:0.6rem;text-transform:uppercase;font-weight:800;color:#6b7280;letter-spacing:0.5px;">Decoración</small>
+                            <div class="d-flex flex-wrap gap-1">
+                                ${habitat?.decoracion
                                     ? habitat.decoracion.split(',').map(d => {
-                                        let color =
-                                            d.includes('Caliente') ? 'danger' :
-                                            d.includes('Húmedo') ? 'info' :
-                                            d.includes('Fría') ? 'primary' :
-                                            'secondary';
-                                        return `<span class="badge border border-${color}-subtle bg-${color}-subtle text-${color} x-small">${d.trim()}</span>`;
+                                        let bg, color, border;
+                                        if (d.includes('Caliente'))     { bg='#fff1f2'; color='#e11d48'; border='#fecdd3'; }
+                                        else if (d.includes('Húmedo'))  { bg='#ecfeff'; color='#0891b2'; border='#a5f3fc'; }
+                                        else if (d.includes('Fría'))    { bg='#eff6ff'; color='#2563eb'; border='#bfdbfe'; }
+                                        else                            { bg='#f8fafc'; color='#64748b'; border='#e2e8f0'; }
+                                        return `<span style="display:inline-block;padding:2px 8px;border-radius:6px;font-size:0.6rem;font-weight:600;background:${bg};color:${color};border:1px solid ${border};">${d.trim()}</span>`;
                                     }).join('')
-                                    : '<span class="text-muted x-small">No definida</span>'
-                                }
+                                    : '<span class="text-muted" style="font-size:0.75rem;">No definida</span>'}
                             </div>
                         </div>
 
-                        <!-- Enriquecimiento -->
-                        <div class="mb-3">
-                            <small class="fw-bold text-secondary x-small text-uppercase">
-                                Enriquecimiento Ambiental
-                            </small>
-                            <div class="d-flex flex-wrap gap-1 mt-1">
-                                ${
-                                    habitat?.enriquecimiento
+                        <div>
+                            <small class="d-block mb-1" style="font-size:0.6rem;text-transform:uppercase;font-weight:800;color:#6b7280;letter-spacing:0.5px;">Enriquecimiento</small>
+                            <div class="d-flex flex-wrap gap-1">
+                                ${habitat?.enriquecimiento
                                     ? habitat.enriquecimiento.split(',').map(e =>
-                                        `<span class="badge rounded-pill bg-white text-dark border x-small">
-                                            <i class="bi bi-stars text-warning me-1"></i>${e.trim()}
-                                        </span>`
+                                        `<span style="display:inline-block;padding:2px 8px;border-radius:6px;font-size:0.6rem;font-weight:600;background:#fefce8;color:#854d0e;border:1px solid #fef08a;"><i class="bi bi-stars me-1"></i>${e.trim()}</span>`
                                       ).join('')
-                                    : '<span class="text-muted x-small">No definido</span>'
-                                }
+                                    : '<span class="text-muted" style="font-size:0.75rem;">No definido</span>'}
                             </div>
                         </div>
-                    </section>
+                    </div>
 
-                    <!-- PARÁMETROS -->
-                    <section class="mb-4">
-                        <h6 class="fw-bold border-bottom pb-2 text-primary">
-                            <i class="bi bi-thermometer-sun me-2"></i>PARÁMETROS AMBIENTALES
-                        </h6>
+                    <!-- Parámetros ambientales -->
+                    <div class="rounded-3 p-3" style="background:#fff;border:1px solid #e5e7eb;">
+                        <p class="fw-bold mb-3" style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:#2563eb;border-bottom:1px solid #dbeafe;padding-bottom:6px;">
+                            <i class="bi bi-thermometer-sun me-2"></i>Parámetros Ambientales
+                        </p>
 
-                        <table class="table table-sm table-borderless mb-0">
-                            <thead>
-                                <tr class="x-small text-muted text-uppercase">
-                                    <th>Parámetro</th>
-                                    <th class="text-center">Día</th>
-                                    <th class="text-center">Noche</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <div class="p-2 rounded-2 text-center" style="background:#fff1f2;border:1px solid #fecdd3;">
+                                    <small class="d-block" style="font-size:0.58rem;text-transform:uppercase;font-weight:800;color:#9f1239;letter-spacing:0.5px;">Temperatura Día</small>
+                                    <span class="fw-bold" style="color:#e11d48;font-size:0.9rem;">${environment?.temperaturaDiaMin || '--'}° – ${environment?.temperaturaDiaMax || '--'}°C</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded-2 text-center" style="background:#eff6ff;border:1px solid #bfdbfe;">
+                                    <small class="d-block" style="font-size:0.58rem;text-transform:uppercase;font-weight:800;color:#1e40af;letter-spacing:0.5px;">Temperatura Noche</small>
+                                    <span class="fw-bold" style="color:#2563eb;font-size:0.9rem;">${environment?.temperaturaNocheMin || '--'}° – ${environment?.temperaturaNocheMax || '--'}°C</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded-2 text-center" style="background:#ecfeff;border:1px solid #a5f3fc;">
+                                    <small class="d-block" style="font-size:0.58rem;text-transform:uppercase;font-weight:800;color:#164e63;letter-spacing:0.5px;">Humedad</small>
+                                    <span class="fw-bold" style="color:#0891b2;font-size:0.9rem;"><i class="bi bi-droplet-half me-1"></i>${environment?.humedadMin || '--'}% – ${environment?.humedadMax || '--'}%</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded-2 text-center" style="background:#fefce8;border:1px solid #fef08a;">
+                                    <small class="d-block" style="font-size:0.58rem;text-transform:uppercase;font-weight:800;color:#713f12;letter-spacing:0.5px;">Ciclo de Luz</small>
+                                    <span class="fw-bold" style="color:#92400e;font-size:0.9rem;"><i class="bi bi-clock-history me-1"></i>${environment?.horasLuz || '12'}h/día</span>
+                                </div>
+                            </div>
+                        </div>
 
-                                <tr>
-                                    <td class="small fw-bold pt-2">Temperatura</td>
-                                    <td class="text-center pt-2">
-                                        <span class="text-danger fw-bold">
-                                            ${environment?.temperaturaDiaMin || '--'}° - ${environment?.temperaturaDiaMax || '--'}°C
-                                        </span>
-                                    </td>
-                                    <td class="text-center pt-2">
-                                        <span class="text-primary fw-bold">
-                                            ${environment?.temperaturaNocheMin || '--'}° - ${environment?.temperaturaNocheMax || '--'}°C
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="small fw-bold pt-2">Humedad</td>
-                                    <td colspan="2" class="text-info fw-bold text-center pt-2">
-                                        <i class="bi bi-droplet-half me-1"></i>
-                                        ${environment?.humedadMin || '--'}% - ${environment?.humedadMax || '--'}%
-                                    </td>
-                                </tr>
-
-                                <tr class="bg-light">
-                                    <td colspan="3" class="text-center py-1 rounded">
-                                        <small class="fw-bold text-uppercase text-muted">
-                                            <i class="bi bi-lightbulb-fill me-1"></i> Iluminación y Fotoperiodo
-                                        </small>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="small fw-bold pt-2">Radiación UVB</td>
-                                    <td colspan="2" class="text-center pt-2">
-                                        ${
-                                            environment?.uvbRequerido
-                                            ? `<span class="badge rounded-pill bg-warning-subtle text-warning border border-warning-subtle px-3">SÍ (REQUERIDO)</span>`
-                                            : `<span class="badge rounded-pill bg-light text-muted border px-3">NO NECESARIO</span>`
-                                        }
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="small fw-bold pt-2">Ciclo de Luz</td>
-                                    <td colspan="2" class="text-center pt-2">
-                                        <span class="text-dark fw-bold">
-                                            <i class="bi bi-clock-history me-1 text-primary"></i>
-                                            ${environment?.horasLuz || '12'}h diarias
-                                        </span>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </section>
-
+                        <div class="text-center py-2 rounded-2" style="background:${environment?.uvbRequerido ? 'rgba(255,193,7,0.08)' : '#f8f9fb'};border:1px solid ${environment?.uvbRequerido ? 'rgba(255,193,7,0.25)' : '#e5e7eb'};">
+                            <small style="font-size:0.6rem;text-transform:uppercase;font-weight:800;color:#6b7280;letter-spacing:0.5px;">Radiación UVB</small>
+                            <div class="fw-bold mt-1" style="color:${environment?.uvbRequerido ? '#d97706' : '#9ca3af'};font-size:0.85rem;">
+                                ${environment?.uvbRequerido
+                                    ? '<i class="bi bi-sun-fill me-1"></i>REQUERIDO'
+                                    : '<i class="bi bi-dash-circle me-1"></i>No necesario'}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- DIETA + SUPLEMENTOS -->
-            <div class="row g-4 mt-2">
-
+            <div class="row g-3 mt-1">
                 <div class="col-md-6">
-                    <section class="h-100 p-3 rounded-4 border">
-                        <h6 class="fw-bold border-bottom pb-2 text-uppercase small text-secondary">
-                            <i class="bi bi-egg-fried me-2"></i>
-                            Dieta: ${diets?.[0]?.dietType?.nombre || 'N/A'}
-                        </h6>
-
-                        <div class="d-flex flex-wrap gap-1 my-2">
-                            ${
-                                diets?.[0]?.dietFoods?.map(df =>
-                                    `<span class="badge bg-white text-dark border x-small">${df.food.nombre}</span>`
-                                ).join('') || '<span class="text-muted x-small">No definida</span>'
-                            }
-                        </div>
-
-                        <p class="x-small text-muted italic mb-0">
-                            ${diets?.[0]?.observaciones || ''}
+                    <div class="rounded-3 p-3 h-100" style="background:#fff;border:1px solid #e5e7eb;">
+                        <p class="fw-bold mb-2" style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:#d97706;border-bottom:1px solid #fef3c7;padding-bottom:6px;">
+                            <i class="bi bi-egg-fried me-2"></i>Dieta: ${diets?.[0]?.dietType?.nombre || 'N/A'}
                         </p>
-                    </section>
+                        <div class="d-flex flex-wrap gap-1 mb-2">
+                            ${diets?.[0]?.dietFoods?.map(df =>
+                                `<span style="display:inline-block;padding:2px 9px;border-radius:6px;font-size:0.62rem;font-weight:600;background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;">${df.food.nombre}</span>`
+                            ).join('') || '<span class="text-muted" style="font-size:0.75rem;">No definida</span>'}
+                        </div>
+                        <p class="mb-0" style="font-size:0.72rem;font-style:italic;color:#9ca3af;">${diets?.[0]?.observaciones || ''}</p>
+                    </div>
                 </div>
 
                 <div class="col-md-6">
-                    <section class="h-100 p-3 rounded-4 border bg-light">
-                        <h6 class="fw-bold border-bottom pb-2 text-warning text-uppercase small">
+                    <div class="rounded-3 p-3 h-100" style="background:#fff;border:1px solid #e5e7eb;">
+                        <p class="fw-bold mb-2" style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:#7c3aed;border-bottom:1px solid #ede9fe;padding-bottom:6px;">
                             <i class="bi bi-capsule me-2"></i>Suplementación
-                        </h6>
-
-                        <div class="list-group list-group-flush rounded-3 overflow-hidden border">
-                            ${
-                                supplements && supplements.length > 0
+                        </p>
+                        <div class="d-flex flex-column gap-1">
+                            ${supplements?.length > 0
                                 ? supplements.map(s => `
-                                    <div class="list-group-item p-2 bg-white">
-                                        <div class="fw-bold x-small">${s.supplement.nombre}</div>
-                                        <div class="x-small text-primary mt-1">
-                                            <i class="bi bi-calendar-check me-1"></i>${s.observaciones}
+                                    <div class="d-flex align-items-start gap-2 py-1" style="border-bottom:1px solid #f5f3ff;">
+                                        <i class="bi bi-capsule text-info mt-1" style="font-size:0.7rem;flex-shrink:0;"></i>
+                                        <div>
+                                            <div class="fw-bold" style="font-size:0.75rem;">${s.supplement.nombre}</div>
+                                            <div style="font-size:0.68rem;color:#7c3aed;">${s.observaciones}</div>
                                         </div>
                                     </div>
                                 `).join('')
-                                : '<div class="list-group-item small italic text-muted text-center">Sin pauta</div>'
-                            }
+                                : '<span class="text-muted" style="font-size:0.75rem;font-style:italic;">Sin pauta de suplementación</span>'}
                         </div>
-                    </section>
+                    </div>
                 </div>
             </div>
 
             <!-- SALUD -->
-            <div class="mt-4 pt-3 border-top">
-                <h6 class="fw-bold text-danger mb-3">
-                    <i class="bi bi-heart-pulse me-2"></i>ALERTAS DE SALUD
-                </h6>
-
+            ${healthIssues?.length > 0 ? `
+            <div class="mt-3 rounded-3 p-3" style="background:#fff;border:1px solid #fecaca;">
+                <p class="fw-bold mb-3" style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:#dc2626;border-bottom:1px solid #fecaca;padding-bottom:6px;">
+                    <i class="bi bi-heart-pulse me-2"></i>Alertas de Salud
+                </p>
                 <div class="row g-2">
-                    ${
-                        healthIssues?.length > 0
-                        ? healthIssues.map(hi => `
-                            <div class="col-md-6">
-                                <div class="p-2 border-start border-danger border-4 bg-light h-100 shadow-sm">
-                                    <div class="small fw-bold text-dark">${hi.healthIssue.nombre}</div>
-                                    <div class="text-muted italic mb-1" style="font-size: 0.65rem;">
-                                        ${hi.healthIssue.descripcion || ''}
-                                    </div>
-                                    <div class="p-1 mt-1 rounded bg-white" style="font-size: 0.7rem; border: 1px dashed #dc3545;">
-                                        <span class="fw-bold text-danger">Prevención:</span> ${hi.prevencion || 'No especificada'}
-                                    </div>
+                    ${healthIssues.map(hi => `
+                        <div class="col-md-6">
+                            <div class="p-2 rounded-2 h-100" style="background:#fff5f5;border-left:3px solid #dc2626;border:1px solid #fecaca;border-left:3px solid #dc2626;">
+                                <div class="fw-bold" style="font-size:0.78rem;">${hi.healthIssue.nombre}</div>
+                                <div class="mb-1" style="font-size:0.65rem;color:#9ca3af;font-style:italic;">${hi.healthIssue.descripcion || ''}</div>
+                                <div class="px-2 py-1 rounded-1" style="background:#fff;border:1px dashed #dc2626;font-size:0.68rem;">
+                                    <span class="fw-bold text-danger">Prevención:</span> ${hi.prevencion || 'No especificada'}
                                 </div>
                             </div>
-                        `).join('')
-                        : '<p class="small italic text-muted px-2">Sin alertas registradas.</p>'
-                    }
+                        </div>
+                    `).join('')}
                 </div>
             </div>
+            ` : ''}
 
         </div>
     `;
@@ -670,12 +599,10 @@ function showDetail(id) {
 // COMPONENTE: MINI STAT (LABEL + VALOR + BORDE OPCIONAL)
 // =======================
 function renderMiniStat(label, value, border) {
-
-    // Devuelve un bloque de UI reutilizable para mostrar datos pequenos en columnas
     return `
-        <div class="col-4 ${border ? 'border-end' : ''}">
-            <div class="x-small text-muted">${label}</div>
-            <div class="fw-bold">${value}</div>
+        <div class="col-4 text-center py-3 ${border ? 'border-end' : ''}" style="border-color:rgba(255,255,255,0.08)!important;">
+            <div style="font-size:0.58rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.4);font-weight:800;">${label}</div>
+            <div class="fw-bold text-white" style="font-size:1.05rem;font-family:'Montserrat',sans-serif;">${value}</div>
         </div>`;
 }
 
@@ -785,77 +712,54 @@ function renderImageCarousel(images, animalId, animalName) {
     // ID único del carousel por animal
     const carouselId = `carousel-${animalId}`;
 
-    // =======================
     // MINIATURAS (INDICADORES)
-    // =======================
     const indicatorsHtml = images.map((img, index) => `
         <button type="button"
                 data-bs-target="#${carouselId}"
                 data-bs-slide-to="${index}"
                 class="${index === 0 ? 'active' : ''}"
-                style="width: 60px; height: 45px; border: 2px solid #ddd; padding: 0; border-radius: 6px; overflow: hidden; background: #000;">
-
+                style="width:58px;height:44px;padding:0;border-radius:8px;overflow:hidden;background:#000;
+                       border:2px solid ${index === 0 ? '#ffc107' : 'rgba(255,255,255,0.15)'};
+                       transition:border-color 0.2s;flex-shrink:0;">
             <img src="${img.url}"
                  class="w-100 h-100"
-                 style="object-fit: cover; opacity: 0.8;"
-                 alt="Mini">
+                 style="object-fit:cover;opacity:${index === 0 ? '1' : '0.65'};"
+                 alt="Miniatura ${index + 1}">
         </button>
     `).join('');
 
-    // =======================
     // SLIDES DEL CAROUSEL
-    // =======================
     const itemsHtml = images.map((img, index) => `
         <div class="carousel-item ${index === 0 ? 'active' : ''}">
             <img src="${img.url}"
-                 class="d-block w-100 rounded-4 shadow-sm border border-white border-2"
+                 class="d-block w-100"
                  alt="${animalName}"
-                 style="aspect-ratio: 4/3; object-fit: cover; object-position: center;">
+                 style="aspect-ratio:4/3;object-fit:cover;object-position:center;border-radius:14px;">
         </div>
     `).join('');
 
-    // =======================
     // ESTRUCTURA FINAL CAROUSEL
-    // =======================
     return `
-        <div id="${carouselId}"
-             class="carousel slide mb-2"
-             data-bs-ride="false">
-
-            <div class="carousel-inner">
-                ${itemsHtml}
+        <div style="background:#0d1117;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);">
+            <div id="${carouselId}" class="carousel slide" data-bs-ride="false">
+                <div class="carousel-inner">
+                    ${itemsHtml}
+                </div>
+                ${images.length > 1 ? `
+                <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon p-3 rounded-circle" style="background:rgba(0,0,0,0.55);"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next">
+                    <span class="carousel-control-next-icon p-3 rounded-circle" style="background:rgba(0,0,0,0.55);"></span>
+                </button>
+                ` : ''}
             </div>
-
-            ${
-                images.length > 1 ? `
-                <!-- CONTROLES -->
-                <button class="carousel-control-prev"
-                        type="button"
-                        data-bs-target="#${carouselId}"
-                        data-bs-slide="prev">
-
-                    <span class="carousel-control-prev-icon p-3 rounded-circle bg-dark bg-opacity-25"></span>
-                </button>
-
-                <button class="carousel-control-next"
-                        type="button"
-                        data-bs-target="#${carouselId}"
-                        data-bs-slide="next">
-
-                    <span class="carousel-control-next-icon p-3 rounded-circle bg-dark bg-opacity-25"></span>
-                </button>
-                ` : ''
-            }
-        </div>
-
-        ${
-            images.length > 1 ? `
-            <!-- MINIATURAS -->
-            <div class="d-flex gap-2 mt-2 pb-1 overflow-x-auto justify-content-start px-1">
+            ${images.length > 1 ? `
+            <div class="d-flex gap-2 px-3 py-2 overflow-x-auto" style="background:rgba(0,0,0,0.3);">
                 ${indicatorsHtml}
             </div>
-            ` : ''
-        }
+            ` : ''}
+        </div>
     `;
 }
 
